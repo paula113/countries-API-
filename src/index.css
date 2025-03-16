@@ -1,0 +1,22 @@
+/* @import "tailwindcss"; */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* --acme-canvas-color: oklch(0.967 0.003 264.542); */
+}
+[data-theme="dark"] {
+  --color-purple: #7a7aae;
+}
+
+
+/* @theme {
+  --color-*: initial;
+  --color-white: #fff;
+  --color-purple: #3f3cbb;
+  --color-midnight: #121063;
+  --color-tahiti: #3ab7bf;
+  --color-bermuda: #78dcca;
+} */
