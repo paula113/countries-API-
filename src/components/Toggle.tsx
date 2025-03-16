@@ -23,13 +23,21 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button
+    <div className="flex items-center gap-2">
+      <span className="text-yellow-500">☀️</span>
+      <button
       onClick={toggleTheme}
-      className="p-2 rounded bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-    >
-      {isDark ? "🌙 Dark Mode" : "☀️ Light Mode"}
-    </button>
-  );
+      className="w-14 h-8 flex items-center bg-gray-300 dark:bg-gray-600 rounded-full p-1 transition-colors duration-300"
+      >
+        <div
+            className={`bg-white dark:bg-gray-200 w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
+              isDark ? "translate-x-6" : "translate-x-0"
+            }`}
+        />
+      </button>
+      <span className="text-white dark:text-yellow-300">🌙</span>
+    </div>
+  )
 };
 
 export default ThemeToggle;
