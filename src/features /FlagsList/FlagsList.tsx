@@ -1,32 +1,56 @@
 import { ChangeEvent, ReactNode, useState } from 'react'
-import dataJson from '../services/data.json'
-import FlagCard from '../components/FlagCard/FlagCard'
-import { flagInfoProps as FlagInfo } from '../components/FlagCard/types'
+import dataJson from '../../services/data.json'
+import FlagCard from '../../components/FlagCard/FlagCard'
+import { flagInfoProps as FlagInfo } from '../../components/FlagCard/types'
+import { FlagsListProps } from '../types'
 
-const FlagsList: React.FC = () => {
+const FlagsList: React.FC<FlagsListProps> = ({ setCardDetails }) => {
   const data: FlagInfo[] = dataJson as FlagInfo[]
   const regionOptions: string[] = [...new Set(data.map(({ region }) => region))]
 
   const [flagsData, setFlagsData] = useState(data)
+  const [selectedRegion, setSelectedRegion] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
 
+  const getDataResult = (val: string) => {
+    const filteredFlags: FlagInfo[] = !selectedRegion
+      ? flagsData
+      : data.filter(({ region }) => region === (val || selectedRegion))
+    return filteredFlags
+  }
+
+  const countryList = getDataResult('')
+
   const getCountriesListView = (): ReactNode =>
-    flagsData.map((item) => <FlagCard key={item.name} flagInfo={item} />)
+    countryList.map((item) => (
+      <FlagCard
+        key={item.name}
+        flagInfo={item}
+        setCardDetails={setCardDetails}
+      />
+    ))
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value || ''
     setSearchTerm(value)
+
+    if (!value) {
+      setFlagsData(data)
+      return
+    }
 
     const searchResult: FlagInfo[] =
       data.filter(
         ({ name }) => name.toLocaleLowerCase() === value.toLocaleLowerCase()
       ) || []
     setFlagsData([...searchResult])
+    setSelectedRegion('')
+    return
   }
 
   const getSearchView = (): ReactNode => {
     return (
-      <div className="mt-6 mb-6 relative w-full">
+      <div className="relative w-full shadow rounded-lg md:w-3/6">
         <label htmlFor="site-search" className="absolute h-10 p-2">
           🔍
         </label>
@@ -45,17 +69,18 @@ const FlagsList: React.FC = () => {
 
   const handleOnChangeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault()
-    const selectedRegion = e.target.value
+    const val = e.target.value
 
-    if (!selectedRegion) {
+    if (!val) {
       setFlagsData(data)
+      setSelectedRegion('')
       return
     }
 
-    const filteredFlags: FlagInfo[] = data.filter(
-      ({ region }) => region === selectedRegion
-    )
-    setFlagsData(filteredFlags)
+    setSearchTerm('')
+    setSelectedRegion(val)
+    const result = getDataResult(val)
+    setFlagsData(result)
     return
   }
 
@@ -72,8 +97,8 @@ const FlagsList: React.FC = () => {
         <select
           name="pets"
           id="pet-select"
-          className="mb-6 text-gray-300 rounded-lg h-10 p-2 dark:bg-gray-800"
-          defaultValue=""
+          className="text-gray-700 dark:text-gray-300 rounded-lg h-10 p-2 shadow dark:bg-gray-800 md:w-3/6"
+          value={selectedRegion}
           onChange={handleOnChangeFilter}
         >
           <option value="">Filter by region</option>
@@ -85,9 +110,11 @@ const FlagsList: React.FC = () => {
 
   return (
     <div className="flex flex-col p-6 w-full">
-      {getSearchView()}
-      {getSelectView()}
-      <div className="flex flex-col md:bg-slate-500 md:flex-wrap md:flex-row gap-2 justify-center">
+      <div className="flex flex-col gap-5 mb-6 md:flex-row md:justify-between md:gap-20">
+        {getSearchView()}
+        {getSelectView()}
+      </div>
+      <div className="flex flex-col md:flex-wrap md:flex-row gap-2 justify-center">
         {getCountriesListView()}
       </div>
     </div>

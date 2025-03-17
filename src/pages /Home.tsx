@@ -1,13 +1,24 @@
-import FlagsList from "../features /FlagsList";
-import MainLayout from "../layouts/MainLayout";
+import { ReactNode, useState } from 'react'
+import Dialog from '../components/Dialog/Dialog'
+import FlagsList from '../features /FlagsList/FlagsList'
+import MainLayout from '../layouts/MainLayout'
+import { flagInfoProps } from '../components/FlagCard/types'
 
 const Home: React.FC = () => {
-  return (
-    <MainLayout>  
-        <h1 className="text-blue-500 dark:text-blue-300">¡Hola, Dark Mode!</h1>
-        <FlagsList />
-    </MainLayout>
-  );
-};
+  const [cardDetails, setCardDetails] = useState<flagInfoProps | null>(null)
 
-export default Home;
+  const getDetailsView = (): ReactNode => {
+    if (!cardDetails) return null
+    return <Dialog cardDetails={cardDetails} setCardDetails={setCardDetails} />
+  }
+
+  return (
+    <MainLayout>
+      <FlagsList setCardDetails={setCardDetails} />
+      {getDetailsView()}
+      {/* <Dialog cardDetails={cardDetails} /> */}
+    </MainLayout>
+  )
+}
+
+export default Home

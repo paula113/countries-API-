@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { FlagCardProps } from './types'
 
-const FlagCard: React.FC<FlagCardProps> = ({ flagInfo }) => {
+const FlagCard: React.FC<FlagCardProps> = ({ flagInfo, setCardDetails }) => {
   const {
     name = '',
     population = '',
@@ -9,6 +9,12 @@ const FlagCard: React.FC<FlagCardProps> = ({ flagInfo }) => {
     capital = '',
     flags
   } = flagInfo || {}
+
+  const handleCardClick = () => {
+    console.log('🚀 ~ handleCardClick ~ flagInfo:', flagInfo)
+    setCardDetails(flagInfo)
+    return
+  }
 
   const getCardDetailsView = (
     name: string,
@@ -29,27 +35,31 @@ const FlagCard: React.FC<FlagCardProps> = ({ flagInfo }) => {
 
   const getFlagNameView = (): ReactNode => {
     return (
-      <a
-        href="#"
-        className="mt-1 block text-lg leading-tight font-medium text-black dark:text-gray-50 hover:underline"
-      >
+      <p className="mt-1 block text-lg leading-tight font-medium text-black dark:text-gray-50 hover:underline">
         {name}
-      </a>
+      </p>
     )
   }
 
   const getFlagImgView = (): ReactNode => {
     return (
       <img
-        className="h-48 w-full object-cover md:h-auto "
+        className="h-36 max-h-36 min-w-36 w-full object-cover"
         src={flags?.svg}
         alt={name}
       />
     )
   }
 
+  const getCardBtnView = (): ReactNode => (
+    <button
+      className="absolute  w-full h-full top-0"
+      onClick={handleCardClick}
+    ></button>
+  )
+
   return (
-    <div className="w-full md:max-w-60 mx-auto overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 mb-6 shadow-md md:max-w-2x1">
+    <div className="relative w-full md:max-w-60 mx-auto overflow-hidden rounded-xl bg-white dark:bg-gray-800 mb-6 shadow-md md:max-w-2x1">
       {getFlagImgView()}
       <div className="p-4">
         {getFlagNameView()}
@@ -57,6 +67,8 @@ const FlagCard: React.FC<FlagCardProps> = ({ flagInfo }) => {
         {getCardDetailsView('Region', region)}
         {getCardDetailsView('Capital', capital)}
       </div>
+      {getCardBtnView()}
+      {/* {getDetailsView()} */}
     </div>
   )
 }

@@ -12,7 +12,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <div>Where in the world?</div>
         <ThemeToggle />
       </header>
-      <main className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+      <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
         {children}
       </main>
       <footer className="bg-midnight text-white p-4">Footer</footer>
