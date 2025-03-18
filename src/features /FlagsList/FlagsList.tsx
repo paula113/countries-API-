@@ -109,7 +109,7 @@ const FlagsList: React.FC<FlagsListProps> = ({ setCardDetails }) => {
   }
 
   return (
-    <div className="flex flex-col p-6 w-full">
+    <div className="flex flex-col flex-auto p-6 w-full">
       <div className="flex flex-col gap-5 mb-6 md:flex-row md:justify-between md:gap-20">
         {getSearchView()}
         {getSelectView()}
