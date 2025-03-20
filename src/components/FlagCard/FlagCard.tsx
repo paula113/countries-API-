@@ -11,7 +11,6 @@ const FlagCard: React.FC<FlagCardProps> = ({ flagInfo, setCardDetails }) => {
   } = flagInfo || {}
 
   const handleCardClick = () => {
-    console.log('🚀 ~ handleCardClick ~ flagInfo:', flagInfo)
     setCardDetails(flagInfo)
     return
   }
