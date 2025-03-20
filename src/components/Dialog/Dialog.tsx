@@ -1,10 +1,10 @@
 // import React from 'react'
 import { ReactNode } from 'react'
-import { flagInfoProps } from '../FlagCard/types'
+import { FlagInfoProps } from '../FlagCard/types'
 
 interface DialogProps {
-  cardDetails: flagInfoProps
-  setCardDetails: (flag: flagInfoProps) => void
+  cardDetails: FlagInfoProps | null
+  setCardDetails: (flag: FlagInfoProps | null) => void
 }
 
 const Dialog: React.FC<DialogProps> = ({ cardDetails, setCardDetails }) => {
@@ -15,7 +15,7 @@ const Dialog: React.FC<DialogProps> = ({ cardDetails, setCardDetails }) => {
     population = '',
     region = '',
     capital = '',
-    flags = [],
+    flags = { svg: '' },
     topLevelDomain = [],
     subregion = '',
     borders = [],
@@ -33,7 +33,7 @@ const Dialog: React.FC<DialogProps> = ({ cardDetails, setCardDetails }) => {
     .join(', ')
 
   const handleClose = () => {
-    setCardDetails({})
+    setCardDetails(null)
   }
 
   const getFlagNameView = (): ReactNode => {

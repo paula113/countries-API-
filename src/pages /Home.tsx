@@ -2,14 +2,19 @@ import { ReactNode, useState } from 'react'
 import Dialog from '../components/Dialog/Dialog'
 import FlagsList from '../features /FlagsList/FlagsList'
 import MainLayout from '../layouts/MainLayout'
-import { flagInfoProps } from '../components/FlagCard/types'
+import { FlagInfoProps } from '../components/FlagCard/types'
 
 const Home: React.FC = () => {
-  const [cardDetails, setCardDetails] = useState<flagInfoProps | null>(null)
+  const [cardDetails, setCardDetails] = useState<FlagInfoProps | null>(null)
 
   const getDetailsView = (): ReactNode => {
     if (!cardDetails) return null
-    return <Dialog cardDetails={cardDetails} setCardDetails={setCardDetails} />
+    return (
+      <Dialog
+        cardDetails={cardDetails || null}
+        setCardDetails={setCardDetails}
+      />
+    )
   }
 
   return (

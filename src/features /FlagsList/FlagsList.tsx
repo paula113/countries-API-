@@ -1,7 +1,7 @@
 import { ChangeEvent, ReactNode, useState } from 'react'
 import dataJson from '../../services/data.json'
 import FlagCard from '../../components/FlagCard/FlagCard'
-import { flagInfoProps as FlagInfo } from '../../components/FlagCard/types'
+import { FlagInfoProps as FlagInfo } from '../../components/FlagCard/types'
 import { FlagsListProps } from '../types'
 
 const FlagsList: React.FC<FlagsListProps> = ({ setCardDetails }) => {

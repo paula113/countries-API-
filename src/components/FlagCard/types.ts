@@ -1,4 +1,4 @@
-export interface FlagImgProps {
+type FlagImgProps = {
   svg: string
 }
 
@@ -10,7 +10,7 @@ export interface FlagLanguagesProps {
   name: string
 }
 
-export interface flagInfoProps {
+export interface FlagInfoProps {
   name: string
   population: number
   region: string
@@ -25,6 +25,6 @@ export interface flagInfoProps {
 }
 
 export interface FlagCardProps {
-  flagInfo: flagInfoProps,
-  setCardDetails: (flag: flagInfoProps) => void  
+  flagInfo: FlagInfoProps,
+  setCardDetails: (flag: FlagInfoProps) => void  
 }

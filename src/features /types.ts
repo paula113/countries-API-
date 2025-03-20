@@ -1,5 +1,5 @@
-import { flagInfoProps } from "../components/FlagCard/types";
+import { FlagInfoProps } from "../components/FlagCard/types";
 
 export interface FlagsListProps {
-  setCardDetails: (flag: flagInfoProps) => void
+  setCardDetails: (flag: FlagInfoProps) => void
 }
