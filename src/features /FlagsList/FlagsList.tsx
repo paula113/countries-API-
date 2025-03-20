@@ -1,8 +1,9 @@
-import { ChangeEvent, ReactNode, useState } from 'react'
+import { ChangeEvent, ReactNode, useEffect, useState } from 'react'
 import dataJson from '../../services/data.json'
 import FlagCard from '../../components/FlagCard/FlagCard'
 import { FlagInfoProps as FlagInfo } from '../../components/FlagCard/types'
 import { FlagsListProps } from '../types'
+import { useDebounce } from '../../hooks/utils'
 
 const FlagsList: React.FC<FlagsListProps> = ({ setCardDetails }) => {
   const data: FlagInfo[] = dataJson as FlagInfo[]
@@ -11,6 +12,8 @@ const FlagsList: React.FC<FlagsListProps> = ({ setCardDetails }) => {
   const [flagsData, setFlagsData] = useState(data)
   const [selectedRegion, setSelectedRegion] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+
+  const debouncedValue: string = useDebounce(searchTerm)
 
   const getDataResult = (val: string) => {
     const filteredFlags: FlagInfo[] = !selectedRegion
@@ -33,18 +36,6 @@ const FlagsList: React.FC<FlagsListProps> = ({ setCardDetails }) => {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value || ''
     setSearchTerm(value)
-
-    if (!value) {
-      setFlagsData(data)
-      return
-    }
-
-    const searchResult: FlagInfo[] =
-      data.filter(
-        ({ name }) => name.toLocaleLowerCase() === value.toLocaleLowerCase()
-      ) || []
-    setFlagsData([...searchResult])
-    setSelectedRegion('')
     return
   }
 
@@ -107,6 +98,23 @@ const FlagsList: React.FC<FlagsListProps> = ({ setCardDetails }) => {
       </>
     )
   }
+
+  useEffect(() => {
+    if (!debouncedValue) {
+      setFlagsData(data)
+      return
+    }
+
+    const searchResult: FlagInfo[] =
+      data.filter(
+        ({ name }) =>
+          name.toLocaleLowerCase() === debouncedValue.toLocaleLowerCase()
+      ) || []
+    setFlagsData([...searchResult])
+    setSelectedRegion('')
+
+    return () => {}
+  }, [debouncedValue, data])
 
   return (
     <div className="flex flex-col flex-auto p-6 w-full">
